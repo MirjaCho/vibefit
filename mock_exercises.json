@@ -1,0 +1,17 @@
+[
+    {"name": "Bodyweight Squat", "difficulty": "Beginner", "muscle": "Quads", "equipment": "Bodyweight"},
+    {"name": "Push-Up", "difficulty": "Intermediate", "muscle": "Chest", "equipment": "Bodyweight"},
+    {"name": "Jumping Jacks", "difficulty": "Beginner", "muscle": "Full Body", "equipment": "Bodyweight"},
+    {"name": "Plank", "difficulty": "Beginner", "muscle": "Core", "equipment": "Bodyweight"},
+    {"name": "Dumbbell Bicep Curl", "difficulty": "Beginner", "muscle": "Biceps", "equipment": "Dumbbells"},
+    {"name": "Burpee", "difficulty": "Advanced", "muscle": "Full Body", "equipment": "Bodyweight"},
+    {"name": "Glute Bridge", "difficulty": "Beginner", "muscle": "Glutes", "equipment": "Bodyweight"},
+    {"name": "Lunges", "difficulty": "Intermediate", "muscle": "Quads", "equipment": "Bodyweight"},
+    {"name": "Dumbbell Shoulder Press", "difficulty": "Intermediate", "muscle": "Shoulders", "equipment": "Dumbbells"},
+    {"name": "Mountain Climbers", "difficulty": "Intermediate", "muscle": "Core", "equipment": "Bodyweight"},
+    {"name": "Child's Pose Stretch", "difficulty": "Beginner", "muscle": "Back", "equipment": "Bodyweight"},
+    {"name": "Diamond Push-Up", "difficulty": "Advanced", "muscle": "Triceps", "equipment": "Bodyweight"},
+    {"name": "Wall Sit", "difficulty": "Beginner", "muscle": "Quads", "equipment": "Bodyweight"},
+    {"name": "Dumbbell Row", "difficulty": "Intermediate", "muscle": "Back", "equipment": "Dumbbells"},
+    {"name": "Pike Push-Up", "difficulty": "Advanced", "muscle": "Shoulders", "equipment": "Bodyweight"}
+]

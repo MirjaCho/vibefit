@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vibefit</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #e8e8e8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* ===== PHONE SHELL ===== */
+        .phone {
+            width: 375px;
+            height: 812px;
+            background: #fff;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* ===== STATUS BAR ===== */
+        .status-bar {
+            background: #a8e6c3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: #a8e6c3;
+            padding: 10px 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: #444;
+            margin-top: 2px;
+        }
+
+        .header .menu-icon {
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* ===== SCREEN ===== */
+        .screen {
+            display: none;
+            flex-direction: column;
+
+            flex: 1;
+
+            height: 100%;
+
+            overflow: hidden;
+
+            min-height: 0;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        .screen-body {
+            flex: 1;
+            padding: 20px;
+
+            overflow: hidden;
+
+            min-height: 0;
+        }
+
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav {
+            background: #fff;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0 14px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #888;
+            cursor: pointer;
+            flex: 1;
+            transition: color 0.2s;
+        }
+
+        .nav-item.active {
+            color: #bceecb;
+        }
+
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* ===== SCREEN 1 – WORKOUTS ===== */
+        .energy-section {
+            margin-top: 10px;
+        }
+
+        .energy-label {
+            font-size: 13px;
+            color: #555;
+            margin-bottom: 8px;
+        }
+
+        .energy-bar-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .energy-bar {
+            flex: 1;
+            height: 6px;
+            background: #ddd;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .energy-fill {
+            height: 100%;
+            background: #bceecb;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+
+        input[type="range"] {
+            flex: 1;
+            accent-color: #bceecb;
+        }
+
+        .energy-icons {
+            font-size: 14px;
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 20px 0 10px;
+            color: #1a1a1a;
+        }
+
+        .focus-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .focus-btn {
+            border: 1.5px solid #ccc;
+            background: #fff;
+            border-radius: 20px;
+            padding: 8px 0;
+            font-size: 13px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .focus-btn.selected {
+            background: #7e9ab6;
+            border-color: #667e96;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .make-plan-btn {
+            margin-top: 30px;
+            width: 100%;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .make-plan-btn:hover {
+            background: #333;
+        }
+
+        /* ===== SCREEN 2 – HABITS ===== */
+        .habit-card {
+            background: #bdcddc;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+
+        .habit-card:hover {
+            transform: scale(1.01);
+        }
+
+        .habit-card.done {
+            opacity: 0.7;
+        }
+
+        .habit-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #7e9ab6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            transition: background 0.2s;
+        }
+
+        .habit-card.done .habit-check {
+            background: #7e9ab6;
+        }
+
+        .habit-card.done .habit-check::after {
+            content: '✓';
+            color: #fff;
+            font-size: 13px;
+        }
+
+        .habit-info {
+            flex: 1;
+        }
+
+        .habit-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: #1a1a1a;
+        }
+
+        .habit-sub {
+            font-size: 12px;
+            color: #555;
+            margin-top: 2px;
+        }
+
+        .habit-points {
+            font-size: 12px;
+            font-weight: 700;
+            color: #5a5c71;
+            white-space: nowrap;
+        }
+
+        .points-today {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .points-today .label {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .points-today .big-num {
+            font-size: 52px;
+            font-weight: 800;
+            color: #1a1a1a;
+            line-height: 1;
+            margin: 4px 0;
+        }
+
+        .points-today .pts-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .show-score-btn {
+            display: block;
+            margin: 16px auto 0;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 32px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* ===== SCREEN 3 – WORKOUT PLAN ===== */
+        .workout-header-info {
+            background: #d4f5e3;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 14px;
+        }
+
+        .exercise-card {
+            background: #d4f5e3;
+            border-radius: 14px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .ex-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid #93c6a2;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.2s;
+        }
+
+        .ex-check.checked {
+            background: #93c6a2;
+        }
+
+        .ex-check.checked::after {
+            content: '✓';
+            color: #fff;
+            font-size: 12px;
+        }
+
+        .ex-info {
+            flex: 1;
+        }
+
+        .ex-name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .ex-desc {
+            font-size: 12px;
+            color: #555;
+            margin-top: 2px;
+        }
+
+        .ex-pts {
+            font-size: 12px;
+            font-weight: 700;
+            color: #3d4d42;
+        }
+
+        /* ===== SCREEN 4 – PERSONAL ===== */
+        .my-points-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .my-points-section .you-have {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .my-points-section .big-pts {
+            font-size: 64px;
+            font-weight: 900;
+            color: #1a1a1a;
+            line-height: 1;
+        }
+
+        .my-points-section .pts-word {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .friend-card {
+            background: #d4f5e3;
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .friend-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #bceecb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            font-size: 15px;
+            flex-shrink: 0;
+        }
+
+        .friend-info {
+            flex: 1;
+        }
+
+        .friend-name {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .friend-sub {
+            font-size: 12px;
+            color: #555;
+            margin-top: 2px;
+        }
+
+        .friend-pts {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .social-btn {
+            display: block;
+            width: 100%;
+            margin-top: 12px;
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            padding: 13px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .social-btn:hover {
+            background: #333;
+        }
+
+
+        /* ===== MODERN ENERGY BAR ===== */
+
+        .energy-modern-card {
+            margin-top: 18px;
+            background: #eef3ee;
+            border: 1px solid #d6ddd6;
+            border-radius: 22px;
+            padding: 12px 14px 16px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .energy-modern-label {
+            font-size: 12px;
+            color: #5f6b63;
+            margin-bottom: 10px;
+        }
+
+        .energy-modern-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .energy-sign {
+            color: #4d7457;
+            font-size: 20px;
+            font-weight: 700;
+            width: 12px;
+            text-align: center;
+        }
+
+        .energy-modern-track {
+            position: relative;
+            flex: 1;
+            height: 18px;
+            border-radius: 999px;
+            background: #b7d4b8;
+            overflow: visible;
+        }
+
+        .energy-modern-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #7fa787, #b6d9b8);
+        }
+
+        .energy-modern-thumb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #dce7d9;
+            border: 1px solid #ffffff;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+            cursor: pointer;
+        }
+
+
+        /* ===== SCREEN 3 FIXED LAYOUT ===== */
+
+        #screen-workout-plan .screen-body {
+            display: flex;
+            flex-direction: column;
+
+            flex: 1;
+
+            overflow: hidden;
+
+            min-height: 0;
+
+            padding: 20px 20px 0 20px;
+
+            position: relative;
+        }
+
+        /* HEADER */
+
+        #plan-header {
+            flex-shrink: 0;
+        }
+
+        /* SCROLL AREA */
+
+        #exercises-list {
+            flex: 1;
+
+            overflow-y: auto;
+
+            min-height: 0;
+
+            padding-right: 6px;
+            padding-bottom: 20px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* SCROLLBAR */
+
+        #exercises-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #exercises-list::-webkit-scrollbar-thumb {
+            background: #b7d4b8;
+            border-radius: 999px;
+        }
+
+        /* FIXED ENERGY BAR */
+
+        .energy-modern-card {
+            flex-shrink: 0;
+
+            /* margin-top: 12px; */
+            /*margin-bottom: 14px;*/
+
+            position: relative;
+            z-index: 20;
+
+            background: #eef3ee;
+            position: absolute;
+
+            left: 20px;
+            right: 20px;
+
+            bottom: 82px;
+
+            transform: translateY(45px);
+            margin: 0;
+        }
+
+        /* Scrollbar */
+
+        #exercises-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #exercises-list::-webkit-scrollbar-thumb {
+            background: #b7d4b8;
+            border-radius: 999px;
+        }
+
+        #exercises-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* ===== FIXED ENERGY BAR ===== */
+
+        .energy-modern-card {
+            position: sticky;
+
+            bottom: 74px;
+
+            left: 0;
+            right: 0;
+
+            z-index: 20;
+
+            margin-top: 14px;
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        /* ===== UTILITIES ===== */
+        .mt-8 {
+            margin-top: 8px;
+        }
+
+        /* Scrollbar */
+        .screen-body::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .screen-body::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 2px;
+        }
+
+        .control-section {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        /* LEFT TIME BAR */
+
+        .time-bar {
+            width: 30px;
+            height: 180px;
+            border-radius: 16px;
+            background: linear-gradient(to bottom,
+                    #dfe6f8,
+                    #7e9ab6);
+
+            position: relative;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 8px 0;
+        }
+
+        .time-top,
+        .time-bottom {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .time-label {
+            position: absolute;
+            left: -34px;
+            top: 50%;
+
+            transform: rotate(-90deg) translateY(-50%);
+
+            transform-origin: left top;
+
+            font-size: 12px;
+            color: #666;
+            white-space: nowrap;
+        }
+
+        /* RIGHT SIDE */
+
+        .interaction-area {
+            position: relative;
+        }
+
+        /* GRID */
+
+        .dot-grid {
+            width: 260px;
+            height: 180px;
+
+            background-image: radial-gradient(#d8d8d8 1.2px,
+                    transparent 1.2px);
+
+            background-size: 24px 24px;
+
+            border-radius: 16px;
+        }
+
+        /* DRAGGABLE DOT */
+
+        .control-dot {
+            position: absolute;
+
+            width: 26px;
+            height: 26px;
+
+            border-radius: 50%;
+
+            background: #bceecb;
+
+            border: 2px solid white;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+
+            top: 50%;
+            left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            cursor: grab;
+
+            z-index: 5;
+        }
+
+        /* ENERGY BAR */
+
+        .energy-bar {
+            width: 100%;
+            height: 24px;
+
+            margin-top: 10px;
+
+            border-radius: 14px;
+
+            background: linear-gradient(to right,
+                    #6f9d7d,
+                    #bceecb);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 14px;
+
+            color: white;
+
+            font-size: 24px;
+        }
+
+        .energy-label {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="phone">
+
+        <!-- STATUS BAR -->
+        <div class="status-bar">
+            <span>21:29</span>
+            <span>🔋 44</span>
+        </div>
+
+        <!-- ===================== SCREEN 1: WORKOUTS ===================== -->
+        <div class="screen active" id="screen-workouts">
+            <div class="header">
+                <div>
+                    <h2>Hello Jimmy,</h2>
+                    <p>Let's make your workout Plan!</p>
+                </div>
+                <span class="menu-icon">☰</span>
+            </div>
+            <div class="screen-body">
+
+                <div class="control-section">
+
+                    <!-- TIME BAR -->
+                    <div class="time-bar">
+                        <span class="time-top">2h</span>
+                        <span class="time-label">Available time</span>
+                        <span class="time-bottom">0h</span>
+                    </div>
+
+                    <!-- GRID AREA -->
+                    <div class="interaction-area">
+
+                        <div class="dot-grid"></div>
+
+                        <div class="control-dot" id="control-dot"></div>
+
+                        <!-- ENERGY BAR -->
+                        <div class="energy-bar">
+                            <span>-</span>
+                            <span>+</span>
+                        </div>
+
+                        <div class="energy-label">
+                            Current Energy Level
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="section-label">Focus Area</div>
+                <div class="focus-grid">
+                    <button class="focus-btn selected" onclick="toggleFocus(this)">Chest</button>
+                    <button class="focus-btn" onclick="toggleFocus(this)">Back</button>
+                    <button class="focus-btn" onclick="toggleFocus(this)">Triceps</button>
+                    <button class="focus-btn" onclick="toggleFocus(this)">Biceps</button>
+                    <button class="focus-btn" onclick="toggleFocus(this)">Abs</button>
+                    <button class="focus-btn" onclick="toggleFocus(this)">Shoulders</button>
+                    <button class="focus-btn" onclick="toggleFocus(this)">Legs</button>
+                </div>
+
+                <button class="make-plan-btn" onclick="generatePlan()">Make my Plan</button>
+
+            </div>
+        </div>
+
+        <!-- ===================== SCREEN 2: HABITS ===================== -->
+        <div class="screen" id="screen-habits">
+            <div class="header">
+                <div>
+                    <h2>Hello Jimmy,</h2>
+                    <p>Let's check some healthy habits!</p>
+                </div>
+                <span class="menu-icon">☰</span>
+            </div>
+            <div class="screen-body">
+
+                <div id="habits-list">
+                    <!-- generated by JS -->
+                </div>
+
+                <div class="points-today">
+                    <div class="label">Today you gained:</div>
+                    <div class="big-num" id="today-points">00</div>
+                    <div class="pts-label">Points</div>
+                </div>
+
+                <button class="show-score-btn" onclick="navigateTo('personal')">Show my score</button>
+
+            </div>
+        </div>
+
+        <!-- ===================== SCREEN 3: WORKOUT PLAN ===================== -->
+        <div class="screen" id="screen-workout-plan">
+            <div class="header">
+                <div>
+                    <h2>Hello Jimmy,</h2>
+                    <p>Here is your Workout Plan!</p>
+                </div>
+                <span class="menu-icon">☰</span>
+            </div>
+            <div class="screen-body">
+
+                <div class="workout-header-info" id="plan-header">
+                    Chest – Area for 40 minutes
+                </div>
+
+                <div id="exercises-list">
+                    <!-- generated by JS -->
+                </div>
+
+                <div class="energy-modern-card">
+                    <div class="energy-modern-label">Current Energy Level</div>
+
+                    <div class="energy-modern-wrapper">
+                        <span class="energy-sign">−</span>
+
+                        <div class="energy-modern-track" id="energy-modern-track">
+                            <div class="energy-modern-fill" id="energy-modern-fill"></div>
+                            <div class="energy-modern-thumb" id="energy-modern-thumb"></div>
+                        </div>
+
+                        <span class="energy-sign">+</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ===================== SCREEN 4: PERSONAL ===================== -->
+        <div class="screen" id="screen-personal">
+            <div class="header">
+                <div>
+                    <h2>Hello Jimmy,</h2>
+                    <p>Let's see what the others are up to!</p>
+                </div>
+                <span class="menu-icon">☰</span>
+            </div>
+            <div class="screen-body">
+
+                <div class="my-points-section">
+                    <div class="you-have">You have</div>
+                    <div class="big-pts" id="my-total-pts">205</div>
+                    <div class="pts-word">Points</div>
+                </div>
+
+                <div id="friends-list">
+                    <!-- generated by JS -->
+                </div>
+
+                <button class="social-btn" onclick="alert('Feature coming soon!')">Check other friends</button>
+                <button class="social-btn" style="background:#bceecb; margin-top:8px;" onclick="addFriend()">Add a new
+                    friend</button>
+
+            </div>
+        </div>
+
+        <!-- ===================== BOTTOM NAV ===================== -->
+        <nav class="bottom-nav">
+            <div class="nav-item" id="nav-habits" onclick="navigateTo('habits')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 11l3 3L22 4" />
+                    <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
+                </svg>
+                Habits
+            </div>
+            <div class="nav-item active" id="nav-workouts" onclick="navigateTo('workouts')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 4v16M18 4v16M2 8h4M18 8h4M2 16h4M18 16h4" />
+                </svg>
+                Workouts
+            </div>
+            <div class="nav-item" id="nav-personal" onclick="navigateTo('personal')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                </svg>
+                Personal
+            </div>
+        </nav>
+
+    </div>
+
+    <script>
+        /* ===================== STATE ===================== */
+        const state = {
+            energy: 50,
+            time: 40,
+            focusAreas: ['Chest'],
+            habitPoints: 0,
+            workoutPoints: 0,
+            myBasePoints: 205,
+            exerciseCount: 10,
+        };
+
+        const habits = [
+            { id: 'water', icon: '', title: 'Drink Water!', sub: 'Drink 1 liter of water today', pts: 10, done: false },
+            { id: 'walk', icon: '', title: 'Go for a walk!', sub: 'Take a 30 minute walk today', pts: 10, done: false },
+            { id: 'sleep', icon: '', title: 'Sleep longer!', sub: 'Go to bed earlier tonight', pts: 10, done: false },
+            { id: 'calm', icon: '', title: 'Keep calm!', sub: 'Meditate for 15 minutes', pts: 10, done: false },
+        ];
+
+        const exerciseDB = {
+            Chest: ['Bench Press', 'Push-Ups', 'Chest Fly', 'Cable Crossover', 'Incline Press', 'test', 'test', 'test', 'test', 'test'],
+            Back: ['Pull-Ups', 'Deadlift', 'Lat Pulldown', 'Seated Row', 'Face Pull'],
+            Triceps: ['Tricep Dips', 'Skull Crushers', 'Pushdown', 'Close-Grip Bench', 'Overhead Extension'],
+            Biceps: ['Barbell Curl', 'Hammer Curl', 'Concentration Curl', 'Cable Curl', 'Preacher Curl'],
+            Abs: ['Crunches', 'Plank', 'Leg Raises', 'Russian Twists', 'Bicycle Crunch'],
+            Shoulders: ['Overhead Press', 'Lateral Raise', 'Front Raise', 'Arnold Press', 'Shrugs'],
+            Legs: ['Squats', 'Lunges', 'Leg Press', 'Calf Raises', 'Romanian Deadlift'],
+        };
+
+        const friends = [
+            { name: 'Michael', pts: 1003, today: 20, initial: 'M' },
+            { name: 'Joey', pts: 50, today: 14, initial: 'J' },
+            { name: 'Catherine', pts: 590, today: 5, initial: 'C' },
+        ];
+
+        /* ===================== NAVIGATION ===================== */
+        function navigateTo(tab) {
+            const screens = {
+                habits: 'screen-habits',
+                workouts: 'screen-workouts',
+                personal: 'screen-personal',
+            };
+
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+            const targetScreen = tab === 'workouts' && state.focusAreas.length && document.getElementById('screen-workout-plan').dataset.generated
+                ? 'screen-workout-plan'
+                : screens[tab] || 'screen-workouts';
+
+            document.getElementById(targetScreen || screens[tab]).classList.add('active');
+            const navId = `nav-${tab}`;
+            if (document.getElementById(navId)) document.getElementById(navId).classList.add('active');
+
+            if (tab === 'personal') renderPersonal();
+            if (tab === 'habits') renderHabits();
+        }
+
+        /* ===================== ENERGY ===================== */
+        function updateEnergy(val) {
+            state.energy = val;
+            document.getElementById('energy-slider-2').value = val;
+        }
+
+        /* ===================== FOCUS TOGGLE ===================== */
+        function toggleFocus(btn) {
+            btn.classList.toggle('selected');
+            const area = btn.textContent.trim();
+            if (btn.classList.contains('selected')) {
+                if (!state.focusAreas.includes(area)) state.focusAreas.push(area);
+            } else {
+                state.focusAreas = state.focusAreas.filter(a => a !== area);
+            }
+        }
+
+        /* ===================== GENERATE PLAN ===================== */
+        function generatePlan() {
+            if (state.focusAreas.length === 0) {
+                alert('Please select at least one Focus Area!');
+                return;
+            }
+
+            // state.time = parseInt(document.getElementById('time-slider').value);
+            const area = state.focusAreas[0];
+            const exs = exerciseDB[area] || [];
+
+            // How many exercises fit in the time?
+            const count = Math.min(exs.length, state.exerciseCount);
+            document.getElementById('plan-header').textContent =
+                `${state.focusAreas.join(', ')} – Area for ${state.time} minutes`;
+
+            const list = document.getElementById('exercises-list');
+            list.innerHTML = '';
+
+            exs.slice(0, count).forEach((ex, i) => {
+                const card = document.createElement('div');
+                card.className = 'exercise-card';
+                card.innerHTML = `
+        <div class="ex-check" id="excheck-${i}" onclick="toggleExercise(${i}, this)"></div>
+        <div class="ex-info">
+          <div class="ex-name">${ex}</div>
+          <div class="ex-desc">3 sets × 12 reps</div>
+        </div>
+        <div class="ex-pts">5<br>Points</div>
+      `;
+                list.appendChild(card);
+            });
+
+            // Mark as generated, switch screen
+            document.getElementById('screen-workout-plan').dataset.generated = '1';
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('screen-workout-plan').classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('nav-workouts').classList.add('active');
+        }
+
+        function toggleExercise(idx, el) {
+            el.classList.toggle('checked');
+            const checked = document.querySelectorAll('.ex-check.checked').length;
+            state.workoutPoints = checked * 5;
+            updateMyPoints();
+        }
+
+        /* ===================== HABITS ===================== */
+        function renderHabits() {
+            const list = document.getElementById('habits-list');
+            list.innerHTML = '';
+
+            habits.forEach(h => {
+                const card = document.createElement('div');
+                card.className = `habit-card${h.done ? ' done' : ''}`;
+                card.onclick = () => toggleHabit(h.id);
+                card.innerHTML = `
+        <div class="habit-check"></div>
+        <div class="habit-info">
+          <div class="habit-title">${h.icon} ${h.title}</div>
+          <div class="habit-sub">${h.sub}</div>
+        </div>
+        <div class="habit-points">${h.pts}<br>Points</div>
+      `;
+                list.appendChild(card);
+            });
+
+            updateHabitPoints();
+        }
+
+        function toggleHabit(id) {
+            const h = habits.find(x => x.id === id);
+            if (!h) return;
+            h.done = !h.done;
+            renderHabits();
+            updateMyPoints();
+        }
+
+        function updateHabitPoints() {
+            const pts = habits.filter(h => h.done).reduce((sum, h) => sum + h.pts, 0);
+            state.habitPoints = pts;
+            document.getElementById('today-points').textContent =
+                String(pts).padStart(2, '0');
+        }
+
+        /* ===================== PERSONAL ===================== */
+        function renderPersonal() {
+            updateMyPoints();
+            const list = document.getElementById('friends-list');
+            list.innerHTML = '';
+
+            friends.forEach(f => {
+                const card = document.createElement('div');
+                card.className = 'friend-card';
+                card.innerHTML = `
+        <div class="friend-avatar">${f.initial}</div>
+        <div class="friend-info">
+          <div class="friend-name">${f.name}</div>
+          <div class="friend-sub">${f.name} has earned ${f.today} Points today</div>
+        </div>
+        <div class="friend-pts">${f.pts} Points</div>
+      `;
+                list.appendChild(card);
+            });
+        }
+
+        function updateMyPoints() {
+            const total = state.myBasePoints + state.habitPoints + state.workoutPoints;
+            const el = document.getElementById('my-total-pts');
+            if (el) el.textContent = total;
+        }
+
+        /* ===================== ADD FRIEND ===================== */
+        function addFriend() {
+            const name = prompt('Enter friend name:');
+            if (!name || !name.trim()) return;
+            friends.push({
+                name: name.trim(),
+                pts: 0,
+                today: 0,
+                initial: name.trim()[0].toUpperCase(),
+            });
+            renderPersonal();
+        }
+
+        const dot = document.getElementById('control-dot');
+        const grid = document.querySelector('.dot-grid');
+
+        let isDragging = false;
+
+        dot.addEventListener('mousedown', () => {
+            isDragging = true;
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+
+            if (!isDragging) return;
+
+            const rect = grid.getBoundingClientRect();
+
+            let x = e.clientX - rect.left;
+            let y = e.clientY - rect.top;
+
+            // Grenzen
+            x = Math.max(0, Math.min(x, rect.width));
+            y = Math.max(0, Math.min(y, rect.height));
+
+            dot.style.left = `${x}px`;
+            dot.style.top = `${y}px`;
+
+            // VALUES
+
+            // ENERGY = X
+            const energy =
+                Math.round((x / rect.width) * 100);
+
+            // TIME = Y
+            const time =
+                Math.round(((rect.height - y) / rect.height) * 120);
+
+            state.energy = energy;
+            state.time = time;
+
+            console.log({
+                energy,
+                time
+            });
+        });
+
+
+        /* ===================== MODERN ENERGY BAR (SCREEN 3) ===================== */
+
+        const energyModernTrack = document.getElementById('energy-modern-track');
+        const energyModernThumb = document.getElementById('energy-modern-thumb');
+        const energyModernFill = document.getElementById('energy-modern-fill');
+
+        function renderModernEnergy(value) {
+            if (!energyModernTrack) return;
+
+            const percent = Math.max(0, Math.min(100, value));
+
+            energyModernThumb.style.left = `${percent}%`;
+            energyModernFill.style.width = `${percent}%`;
+        }
+
+        let draggingModernEnergy = false;
+
+        energyModernThumb?.addEventListener('mousedown', () => {
+            draggingModernEnergy = true;
+        });
+
+        document.addEventListener('mouseup', () => {
+            draggingModernEnergy = false;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!draggingModernEnergy) return;
+
+            const rect = energyModernTrack.getBoundingClientRect();
+
+            let x = e.clientX - rect.left;
+            x = Math.max(0, Math.min(x, rect.width));
+
+            const percent = Math.round((x / rect.width) * 100);
+
+            let new_energy = percent;
+
+            renderModernEnergy(percent);
+
+            console.log(new_energy)
+        });
+
+        window.addEventListener('load', () => {
+            renderModernEnergy(state.energy);
+        });
+
+
+        /* ===================== INIT ===================== */
+        renderHabits();
+    </script>
+
+</body>
+
+</html>

@@ -27,7 +27,7 @@
         /* ===== PHONE SHELL ===== */
         .phone {
             width: 375px;
-            min-height: 812px;
+            height: 812px;
             background: #fff;
             border-radius: 40px;
             overflow: hidden;
@@ -78,8 +78,14 @@
         .screen {
             display: none;
             flex-direction: column;
+
             flex: 1;
-            overflow-y: auto;
+
+            height: 100%;
+
+            overflow: hidden;
+
+            min-height: 0;
         }
 
         .screen.active {
@@ -89,7 +95,10 @@
         .screen-body {
             flex: 1;
             padding: 20px;
-            overflow-y: auto;
+
+            overflow: hidden;
+
+            min-height: 0;
         }
 
         /* ===== BOTTOM NAV ===== */
@@ -214,7 +223,7 @@
 
         /* ===== SCREEN 2 – HABITS ===== */
         .habit-card {
-            background: #d4f5e3;
+            background: #bdcddc;
             border-radius: 14px;
             padding: 14px 16px;
             margin-bottom: 12px;
@@ -275,7 +284,7 @@
         .habit-points {
             font-size: 12px;
             font-weight: 700;
-            color: #5a7160;
+            color: #5a5c71;
             white-space: nowrap;
         }
 
@@ -340,7 +349,7 @@
             width: 22px;
             height: 22px;
             border-radius: 6px;
-            border: 2px solid #bceecb;
+            border: 2px solid #93c6a2;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -350,7 +359,7 @@
         }
 
         .ex-check.checked {
-            background: #bceecb;
+            background: #93c6a2;
         }
 
         .ex-check.checked::after {
@@ -377,7 +386,7 @@
         .ex-pts {
             font-size: 12px;
             font-weight: 700;
-            color: #bceecb;
+            color: #3d4d42;
         }
 
         /* ===== SCREEN 4 – PERSONAL ===== */
@@ -466,6 +475,179 @@
         .social-btn:hover {
             background: #333;
         }
+
+
+        /* ===== MODERN ENERGY BAR ===== */
+
+        .energy-modern-card {
+            margin-top: 18px;
+            background: #eef3ee;
+            border: 1px solid #d6ddd6;
+            border-radius: 22px;
+            padding: 12px 14px 16px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .energy-modern-label {
+            font-size: 12px;
+            color: #5f6b63;
+            margin-bottom: 10px;
+        }
+
+        .energy-modern-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .energy-sign {
+            color: #4d7457;
+            font-size: 20px;
+            font-weight: 700;
+            width: 12px;
+            text-align: center;
+        }
+
+        .energy-modern-track {
+            position: relative;
+            flex: 1;
+            height: 18px;
+            border-radius: 999px;
+            background: #b7d4b8;
+            overflow: visible;
+        }
+
+        .energy-modern-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #7fa787, #b6d9b8);
+        }
+
+        .energy-modern-thumb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #dce7d9;
+            border: 1px solid #ffffff;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+            cursor: pointer;
+        }
+
+
+        /* ===== SCREEN 3 FIXED LAYOUT ===== */
+
+        #screen-workout-plan .screen-body {
+            display: flex;
+            flex-direction: column;
+
+            flex: 1;
+
+            overflow: hidden;
+
+            min-height: 0;
+
+            padding: 20px 20px 0 20px;
+
+            position: relative;
+        }
+
+        /* HEADER */
+
+        #plan-header {
+            flex-shrink: 0;
+        }
+
+        /* SCROLL AREA */
+
+        #exercises-list {
+            flex: 1;
+
+            overflow-y: auto;
+
+            min-height: 0;
+
+            padding-right: 6px;
+            padding-bottom: 20px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* SCROLLBAR */
+
+        #exercises-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #exercises-list::-webkit-scrollbar-thumb {
+            background: #b7d4b8;
+            border-radius: 999px;
+        }
+
+        /* FIXED ENERGY BAR */
+
+        .energy-modern-card {
+            flex-shrink: 0;
+
+            /* margin-top: 12px; */
+            /*margin-bottom: 14px;*/
+
+            position: relative;
+            z-index: 20;
+
+            background: #eef3ee;
+            position: absolute;
+
+            left: 20px;
+            right: 20px;
+
+            bottom: 82px;
+
+            transform: translateY(45px);
+            margin: 0;
+        }
+
+        /* Scrollbar */
+
+        #exercises-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #exercises-list::-webkit-scrollbar-thumb {
+            background: #b7d4b8;
+            border-radius: 999px;
+        }
+
+        #exercises-list::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* ===== FIXED ENERGY BAR ===== */
+
+        .energy-modern-card {
+            position: sticky;
+
+            bottom: 74px;
+
+            left: 0;
+            right: 0;
+
+            z-index: 20;
+
+            margin-top: 14px;
+
+            backdrop-filter: blur(10px);
+        }
+
 
         /* ===== UTILITIES ===== */
         .mt-8 {
@@ -606,8 +788,6 @@
             font-size: 14px;
             color: #777;
         }
-
-        
     </style>
 </head>
 
@@ -722,12 +902,18 @@
                     <!-- generated by JS -->
                 </div>
 
-                <div class="mt-8">
-                    <div class="energy-label">Current Energy Level</div>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                        <span class="energy-icons">😴</span>
-                        <input type="range" id="energy-slider-2" min="0" max="100" value="50" />
-                        <span class="energy-icons">⚡</span>
+                <div class="energy-modern-card">
+                    <div class="energy-modern-label">Current Energy Level</div>
+
+                    <div class="energy-modern-wrapper">
+                        <span class="energy-sign">−</span>
+
+                        <div class="energy-modern-track" id="energy-modern-track">
+                            <div class="energy-modern-fill" id="energy-modern-fill"></div>
+                            <div class="energy-modern-thumb" id="energy-modern-thumb"></div>
+                        </div>
+
+                        <span class="energy-sign">+</span>
                     </div>
                 </div>
 
@@ -797,6 +983,7 @@
             habitPoints: 0,
             workoutPoints: 0,
             myBasePoints: 205,
+            exerciseCount: 10,
         };
 
         const habits = [
@@ -807,7 +994,7 @@
         ];
 
         const exerciseDB = {
-            Chest: ['Bench Press', 'Push-Ups', 'Chest Fly', 'Cable Crossover', 'Incline Press'],
+            Chest: ['Bench Press', 'Push-Ups', 'Chest Fly', 'Cable Crossover', 'Incline Press', 'test', 'test', 'test', 'test', 'test'],
             Back: ['Pull-Ups', 'Deadlift', 'Lat Pulldown', 'Seated Row', 'Face Pull'],
             Triceps: ['Tricep Dips', 'Skull Crushers', 'Pushdown', 'Close-Grip Bench', 'Overhead Extension'],
             Biceps: ['Barbell Curl', 'Hammer Curl', 'Concentration Curl', 'Cable Curl', 'Preacher Curl'],
@@ -869,13 +1056,12 @@
                 return;
             }
 
-           // state.time = parseInt(document.getElementById('time-slider').value);
+            // state.time = parseInt(document.getElementById('time-slider').value);
             const area = state.focusAreas[0];
             const exs = exerciseDB[area] || [];
 
             // How many exercises fit in the time?
-            const count = Math.min(exs.length, Math.max(2, Math.floor(state.time / 8)));
-
+            const count = Math.min(exs.length, state.exerciseCount);
             document.getElementById('plan-header').textContent =
                 `${state.focusAreas.join(', ')} – Area for ${state.time} minutes`;
 
@@ -1037,6 +1223,54 @@
                 time
             });
         });
+
+
+        /* ===================== MODERN ENERGY BAR (SCREEN 3) ===================== */
+
+        const energyModernTrack = document.getElementById('energy-modern-track');
+        const energyModernThumb = document.getElementById('energy-modern-thumb');
+        const energyModernFill = document.getElementById('energy-modern-fill');
+
+        function renderModernEnergy(value) {
+            if (!energyModernTrack) return;
+
+            const percent = Math.max(0, Math.min(100, value));
+
+            energyModernThumb.style.left = `${percent}%`;
+            energyModernFill.style.width = `${percent}%`;
+        }
+
+        let draggingModernEnergy = false;
+
+        energyModernThumb?.addEventListener('mousedown', () => {
+            draggingModernEnergy = true;
+        });
+
+        document.addEventListener('mouseup', () => {
+            draggingModernEnergy = false;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!draggingModernEnergy) return;
+
+            const rect = energyModernTrack.getBoundingClientRect();
+
+            let x = e.clientX - rect.left;
+            x = Math.max(0, Math.min(x, rect.width));
+
+            const percent = Math.round((x / rect.width) * 100);
+
+            let new_energy = percent;
+
+            renderModernEnergy(percent);
+
+            console.log(new_energy)
+        });
+
+        window.addEventListener('load', () => {
+            renderModernEnergy(state.energy);
+        });
+
 
         /* ===================== INIT ===================== */
         renderHabits();

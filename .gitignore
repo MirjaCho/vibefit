@@ -1,0 +1,12 @@
+# Ignore the secret environment file
+.env
+
+# Ignore the virtual environment folder
+.venv/
+venv/
+
+# Ignore Python cache files
+__pycache__/
+
+# Ignore the local SQLite database so you don't upload test data
+vibefit.db
